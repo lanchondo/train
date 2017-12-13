@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Employee Tracker</title>
+	<title>Train Time</title>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,8 +15,8 @@
 	<div class="container">
 		<div class="jumbotron jumbotron-fluid">
 			<div class="container">
-				<h1 class="display-3" style="text-align:center">Employee Data Management</h1>
-				<p class="lead" style="text-align:center">A comprehensive Directory of Employee Billable Hours</p>
+				<h1 class="display-3" style="text-align:center">Anytime is Train Time!</h1>
+				<p class="lead" style="text-align:center">Choo Choo Chee Chee</p>
 			</div>
 
 		</div>
@@ -24,44 +24,42 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">Employee Name</th>
-					<th scope="col">Role</th>
-					<th scope="col">Start Date</th>
-					<th scope="col">Months Worked</th>
-					<th scope="col">Monthly Rate ($)</th>
-					<th scope="col">Total Billed ($)</th>
+					<th scope="col">Train Name</th>
+					<th scope="col">Destination</th>
+					<th scope="col">Frequency (In Minutes)</th>
+					<th scope="col">Next Arrival</th>
+					<th scope="col">Minutes Away</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>Mark</td>
-					<td>Man</td>
-					<td>11/17/17</td>
-					<td>12</td>
-					<td>$4</td>
-					<td>$100</td>
+					<td>Oregon Trail</td>
+					<td>Chicago</td>
+					<td>25</td>
+					<td>05:35 PM</td>
+					<td>10</td>
 				</tr>
 			</tbody>
 		</table>
 
 		<form>
 			<div class="form-group">
-				<label for="name">Employee Name</label>
-				<input type="text" class="form-control" id="name" placeholder="Your Name Here">
+				<label for="name">Train Name</label>
+				<input type="text" class="form-control" id="train" placeholder="Train Name">
 			</div>
 			<div class="form-group">
-				<label for="role">Position</label>
-				<input type="text" class="form-control" id="role" placeholder="Your Job Here">
+				<label for="role">Destination</label>
+				<input type="text" class="form-control" id="destination" placeholder="Destination">
 			</div>
 			<div class="form-group">
-				<label for="start">Start Date</label>
-				<input type="text" class="form-control" id="start" placeholder="MM/DD/YYYY">
+				<label for="start">First Train Time -- in military time</label>
+				<input type="text" class="form-control" id="train" placeholder="0000">
 			</div>
 			<div class="form-group">
-				<label for="rate">Monthly Rate</label>
-				<input type="text" class="form-control" id="rate" placeholder="$USD/month">
+				<label for="rate">Frequency -- in minutes</label>
+				<input type="text" class="form-control" id="freq" placeholder="00">
 			</div>
-			<button class="btn btn-primary">Submit</button>
+			<button class="btn btn-primary" id="add-train>Submit</button>
 		</form>
 
 	</div>
@@ -76,20 +74,21 @@
 	<script type="text/javascript">
 		 // Initialize Firebase
 		 var config = {
-		 	apiKey: "AIzaSyAUo4N3-ASi4uKR7x14-MPByWs3g444F8c",
-		 	authDomain: "employeetracker-d9771.firebaseapp.com",
-		 	databaseURL: "https://employeetracker-d9771.firebaseio.com",
-		 	projectId: "employeetracker-d9771",
-		 	storageBucket: "employeetracker-d9771.appspot.com",
-		 	messagingSenderId: "113189897572"
+		  	apiKey: "AIzaSyCgTI0irXOmlGsEONEcdZ40mMhz1335Iwc",
+   			 authDomain: "train-6e23c.firebaseapp.com",
+   			 databaseURL: "https://train-6e23c.firebaseio.com",
+    			 projectId: "train-6e23c",
+    			 storageBucket: "train-6e23c.appspot.com",
+   			 messagingSenderId: "87410090111"
 		 };
 		 firebase.initializeApp(config);
-		 var database = firebase.database();
-		 var name = "";
-		 var role = "";
-		 var start = "";
-		 var rate = 0;
-    	 var startFormat = "MM/DD/YYYY";
+	
+	$('#addTrainBtn').on("click", function() {
+  // Retrieve the user's submission upon click
+  		var trainName = $("#trainNameInput").val().trim();
+ 		var destination = $("#destinationInput").val().trim();
+  		var firstTrain = moment($("#timeInput").val().trim(), "HH:mm").format("HH:mm");
+  		var frequency = $("#frequencyInput").val().trim();
 
 		 database.ref().orderByChild("dateAdded").on("child_added", function(cs) {
 		 	console.log(cs.val());
